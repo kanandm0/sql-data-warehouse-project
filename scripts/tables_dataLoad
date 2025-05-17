@@ -1,4 +1,4 @@
-
+--Creating 6 tables for the project
 IF OBJECT_ID ('[bronze].[crm_cust_info]', 'U') IS NOT NULL
 DROP TABLE bronze.crm_cust_info;
 CREATE TABLE [bronze].[crm_cust_info](
@@ -71,71 +71,76 @@ CREATE TABLE [bronze].[erp_px_cat_g1v2](
 	[MAINTENANCE] [varchar] (50) NULL
 );
 
--- Insert data into the customer info table through bulk insert
-TRUNCATE TABLE bronze.crm_cust_info;
+-- Creating stored procedures for data loading into the tables since it's a recurring activity
 
-BULK INSERT bronze.crm_cust_info
-FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
-WITH (
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-);
+CREATE or ALTER PROCEDURE bronze.load_bronze AS
+BEGIN
+	-- Insert data into the customer info table through bulk insert
+	TRUNCATE TABLE bronze.crm_cust_info;
 
-
--- Insert data into the product info info table through bulk insert
-TRUNCATE TABLE bronze.crm_prd_info;
-
-BULK INSERT bronze.crm_cust_info
-FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
-WITH (
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-);
+	BULK INSERT bronze.crm_cust_info
+	FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
+	WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+	);
 
 
--- Insert data into the sales details table through bulk insert
-TRUNCATE TABLE bronze.crm_sales_details;
+	-- Insert data into the product info info table through bulk insert
+	TRUNCATE TABLE bronze.crm_prd_info;
 
-BULK INSERT bronze.crm_sales_details
-FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
-WITH (
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-);
-
--- Insert data into the ERP customer table through bulk insert
-TRUNCATE TABLE bronze.erp_cust_az12;
-
-BULK INSERT bronze.erp_cust_az12
-FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
-WITH (
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-);
+	BULK INSERT bronze.crm_cust_info
+	FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
+	WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+	);
 
 
--- Insert data into the ERP location table through bulk insert
-TRUNCATE TABLE bronze.erp_loc_A101;
+	-- Insert data into the sales details table through bulk insert
+	TRUNCATE TABLE bronze.crm_sales_details;
 
-BULK INSERT bronze.erp_loc_A101
-FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv'
-WITH (
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-);
+	BULK INSERT bronze.crm_sales_details
+	FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
+	WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+	);
 
--- Insert data into the ERP categories table through bulk insert
-TRUNCATE TABLE bronze.erp_px_cat_g1v2;
+	-- Insert data into the ERP customer table through bulk insert
+	TRUNCATE TABLE bronze.erp_cust_az12;
 
-BULK INSERT bronze.erp_px_cat_g1v2
-FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv'
-WITH (
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-);
+	BULK INSERT bronze.erp_cust_az12
+	FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
+	WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+	);
+
+
+	-- Insert data into the ERP location table through bulk insert
+	TRUNCATE TABLE bronze.erp_loc_A101;
+
+	BULK INSERT bronze.erp_loc_A101
+	FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv'
+	WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+	);
+
+	-- Insert data into the ERP categories table through bulk insert
+	TRUNCATE TABLE bronze.erp_px_cat_g1v2;
+
+	BULK INSERT bronze.erp_px_cat_g1v2
+	FROM 'C:\Users\kanan\OneDrive\01_Projects\SQL\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv'
+	WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+	);
+END
